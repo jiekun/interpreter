@@ -19,7 +19,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "Unit test begin..."
-      - run: go test -cover -covermode=atomic -gcflags=all=-l ./... -coverprofile=coverage.txt
+      - run: go test -coverpkg=./... -cover -covermode=atomic -gcflags=all=-l ./... -coverprofile=coverage.txt
       - run: go tool cover -func coverage.txt
       - run: bash <(curl -s https://codecov.io/bash)
       - run: echo "🍏 This job's status is ${{ job.status }}."
