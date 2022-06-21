@@ -4,6 +4,7 @@
 package parser
 
 import (
+	"fmt"
 	"github.com/jiekun/interpreter/ast"
 	"github.com/jiekun/interpreter/lexer"
 	"testing"
@@ -27,6 +28,7 @@ let foobar = 838383;
 		t.Fatalf("program.Statements does not contain 3 statements. got %d", len(program.Statements))
 	}
 
+	fmt.Println(program.String())
 	tests := []struct {
 		expectedIdentifier string
 	}{
@@ -55,6 +57,7 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 		return false
 	}
 
+	fmt.Println(letStmt.String())
 	if letStmt.Name.Value != name {
 		t.Errorf("letStmt.Name.Value not '%s'. got=%s", name, letStmt.Name.Value)
 		return false
@@ -102,6 +105,7 @@ func TestReturnStatements(t *testing.T) {
 			t.Errorf("stmt not *ast.ReturnStatement. got=%T", stmt)
 			continue
 		}
+		fmt.Println(returnStmt.String())
 		if returnStmt.TokenLiteral() != "return" {
 			t.Errorf("returnStmt.TokenLiteral not 'return', got %q", returnStmt.TokenLiteral())
 		}
@@ -121,10 +125,10 @@ func TestIdentifierExpression(t *testing.T) {
 	}
 
 	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
-
 	if !ok {
 		t.Fatalf("program.Statement[0] is not a ast.ExpressionStatement. got=%T", program.Statements[0])
 	}
+	fmt.Println(stmt.String())
 
 	ident, ok := stmt.Expression.(*ast.Identifier)
 	if !ok {
@@ -156,6 +160,7 @@ func TestIntegerLiteralExpression(t *testing.T) {
 	if !ok {
 		t.Fatalf("program.Statement[0] is not a ast.ExpressionStatement. got=%T", program.Statements[0])
 	}
+	fmt.Println(stmt.String())
 
 	literal, ok := stmt.Expression.(*ast.IntegerLiteral)
 	if !ok {
